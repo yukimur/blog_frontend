@@ -3,7 +3,7 @@
         <Row class="right-part">
             <Divider orientation="left"><span class="title">最新文章</span></Divider>
             <List border size="large" :style="{margin:'-15px 0px 8px',border:'0px'}">
-                <ListItem v-for="item in latest_blogs.slice(0,4)" :key="item.id" loading>
+                <ListItem v-for="item in latest_blogs.slice(0,5)" :key="item.id" loading>
                     <Icon type="ios-leaf" :style="{'margin':'0 4px 0 0'}"/>
                     <a :href="'/blogdetail/'+item.id" title="item.title" v-text="item.title?item.title:'无标题'" target="_blank"></a>
                 </ListItem>
@@ -12,18 +12,18 @@
         <Row class="right-part">
         <Divider orientation="left"><span class="title">博文归档</span></Divider>
             <List border size="large" :style="{margin:'-15px 0px 8px',border:'0px'}">
-                <ListItem v-for="item in group_by_date" :key="item.id" loading>
+                <ListItem v-for="item in group_by_date" :key="item.key" loading>
                     <Icon type="ios-calendar" :style="{'margin':'0 4px 0 0'}"/>
-                    <a :href="'#'" v-text="item.year+'年'+item.month+'月归档'" target="_blank"></a>
+                    <a :href="'#'" v-text="item.key_as_string+'归档'" target="_blank"></a>
                     </ListItem>
             </List>
         </Row>
         <Row class="right-part">
         <Divider orientation="left"><span class="title">博文分类</span></Divider>
             <List border size="large" :style="{margin:'-15px 0px 8px',border:'0px'}">
-                <ListItem v-for="item in group_by_tag" :key="item.val" loading>
+                <ListItem v-for="item in group_by_tag" :key="item.key" loading>
                     <Icon type="ios-navigate" :style="{'margin':'0 4px 0 0'}"/>
-                    <a :href="'/blog?tags='+item.val">{{ item.val+'('+item.count+')' }}</a>
+                    <a :href="'/blog?tags='+item.key">{{ item.key+'('+item.doc_count+')' }}</a>
                 </ListItem>
             </List>
         </Row>
@@ -61,7 +61,7 @@ a{
 }
 </style>
 <script>
-    import {get_latest_blog,get_group_by_date,get_group_by_tag,get_web_statis} from "../apis/api"
+    import {get_blog_list1,get_group_by_date,get_group_by_tag,get_web_statis} from "../apis/api"
 
     export default {
         name: "Right",
@@ -85,8 +85,18 @@ a{
         },
         methods:{
             get_latest_blog(){
-                get_latest_blog({}).then((res) => {
-                    this.latest_blogs = res.data.slice(0,5);
+                var query = {
+                    size:5,type:"博客",order_by:"-update_time"
+                };
+                get_blog_list1({
+                    query:query
+                }).then((res) => {
+                    var hits = res.data.hits;
+                    var latest_blogs = [];
+                    for (var i in hits) {
+                        latest_blogs.push(hits[i]._source);
+                    }
+                    this.latest_blogs = latest_blogs;
                 })
             },
             get_group_by_date(){
@@ -118,8 +128,8 @@ a{
                 var data = [];
                 for(var index in this.tagcloud){
                     data.push({
-                        "name":this.tagcloud[index]["val"],
-                        "value":this.tagcloud[index]["count"]
+                        "name":this.tagcloud[index]["key"],
+                        "value":this.tagcloud[index]["doc_count"]
                     })
                 }
                 let option = {

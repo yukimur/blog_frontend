@@ -18,9 +18,9 @@
                     <Icon type="ios-chatbubbles-outline" /> 345
                 </li>
             </template>
-            <template slot="extra" v-if="paper.title_page">
-                <img :src="paper.title_page.image" style="width: 280px">
-            </template>
+            <!-- <template slot="extra" v-if="paper.title_page"> -->
+                <!-- <img :src="paper.title_page.image" style="width: 280px"> -->
+            <!-- </template> -->
         </ListItem>
     </List>
 </template>
@@ -51,18 +51,18 @@
         methods: {
             get_blog_list(page) {
                 var query = {
-                    size:this.size,page:page,type:"博客"
+                    size:this.size,page:page,type:"博客",order_by:"-update_time"
                 };
                 get_blog_list1({
                     query:query
                 }).then(function (response) {
                     return response.data
                 }).then(data => {
-                    this.total = data["numFound"]
-                    this.data = data["docs"]
-                    for(var i in data){
-                        console.log(data[i]);
-                        this.papers.push(data[i]);
+                    this.total = data.total.value
+                    var hits = data.hits;
+                    // var papers = [];
+                    for (var i in hits) {
+                        this.papers.push(hits[i]._source);
                         // var pager = {};
                         // paper["id"] = response.data[i]["title"]
                         // paper["title"] = response.data[i]["title"]
