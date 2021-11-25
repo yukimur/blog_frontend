@@ -14,7 +14,7 @@
                             <span :style="{'font-size':'1px',margin:'auto 10px'}">●</span><span>更新时间：{{ blog.update_time }}</span>
                         </ListItem>
                         <ListItem :split=false class="overview" :style="{width:'100%',display:'block','text-align':'center'}">
-                            {{ blog.tags }} {{ blog.admire_count }} 评论 {{ blog.view_count }} 阅读
+                            {{ blog.tag_list }} {{ blog.admire_count }} 评论 {{ blog.view_count }} 阅读
                         </ListItem>
                         <ListItem class="introduction" :style="{width:'100%','padding':'25px'}">简介：{{ blog.introduction }}</ListItem>
                         <mavonEditor class="mavonEditor" ref=md :style="{'min-height':'800px',width:'100%','z-index':zIndex}" :boxShadow=false :previewBackground="'#FFF8DC'" :toolbarsFlag="toolbarsFlag" :subfield="subfield" :defaultOpen="defaultOpen" fontSize=19px codeStyle='tomorrow'
@@ -27,19 +27,19 @@
                             <Icon type="md-checkmark-circle" v-on:click="save_blog" size=28 :style="{float:'right','line-height':'inherit',cursor:'pointer'}"/>
                             <Icon type="md-close-circle" v-on:click="edit=~edit" size=28 :style="{float:'right','line-height':'inherit',cursor:'pointer'}"/>
                         </ListItem>
-                        <ListItem class="types-edit" :style="{width:'100%',display:'block','text-align':'left','padding':'5px 0'}">
+                        <ListItem class="type_list-edit" :style="{width:'100%',display:'block','text-align':'left','padding':'5px 0'}">
                             <span :style="{'font-size':'25px'}">类型：</span>
-                            <Select v-model="blog.types" multiple filterable allow-create @on-create="createType" style="width:260px">
-                                <Option v-for="item in types" :value="item.value" :key="item.label">{{ item.value }}</Option>
+                            <Select v-model="blog.type_list" multiple filterable allow-create @on-create="createType" style="width:260px">
+                                <Option v-for="item in type_list" :value="item.value" :key="item.label">{{ item.value }}</Option>
                             </Select>
                         </ListItem>
-                        <ListItem class="tags-edit" :style="{width:'100%',display:'block','text-align':'left','padding':'5px 0'}">
+                        <ListItem class="tag_list-edit" :style="{width:'100%',display:'block','text-align':'left','padding':'5px 0'}">
                             <span :style="{'font-size':'25px'}">标签：</span>
-                            <Select v-model="blog.tags" multiple filterable allow-create @on-create="createTag" style="width:260px">
-                                <Option v-for="item in tags" :value="item.value" :key="item.label">{{ item.value }}</Option>
+                            <Select v-model="blog.tag_list" multiple filterable allow-create @on-create="createTag" style="width:260px">
+                                <Option v-for="item in tag_list" :value="item.value" :key="item.label">{{ item.value }}</Option>
                             </Select>
                         </ListItem>
-                        <ListItem class="tags-edit" :style="{width:'100%',display:'block','text-align':'left','padding':'5px 0'}">
+                        <ListItem class="tag_list-edit" :style="{width:'100%',display:'block','text-align':'left','padding':'5px 0'}">
                             <span :style="{'font-size':'25px'}">上传封面：</span>
                             <Upload action="http://yukimura.club/blog/image/" style="display:inline-block" on-success="upload_title_page" show-upload-list=true>
                                 <Button icon="ios-cloud-upload-outline">upload</Button>
@@ -83,7 +83,7 @@
     import Comment from "@/components/Comment"
     import dayjs from 'dayjs';
     import VueKatex from 'vue-katex';
-    import {patch_blog,create_blog,get_blog_detail,get_tags_base,get_types_base,upload_image} from "../apis/api"
+    import {patch_blog,create_blog,get_blog_detail,get_tag_list_base,get_type_list_base,upload_image} from "../apis/api"
 
     
     export default {
@@ -108,8 +108,8 @@
                     title:"",
                     introduction:"",
                     content:"",
-                    types:[],
-                    tags:[],
+                    type_list:[],
+                    tag_list:[],
                     // contentHtml1:"",
                     author:"",
                     create_time:null,
@@ -120,8 +120,8 @@
                 subfield:false,
                 defaultOpen:"preview",
 
-                types:null,
-                tags:null,
+                type_list:null,
+                tag_list:null,
 
                 spinShow:false
             }
@@ -136,14 +136,15 @@
                     result["blog"]["introduction"] = res.data["introduction"]
                     result["blog"]["content"] = res.data["content"]
                     // result["blog"]["contentHtml1"] = res.data["contentHtml1"]
-                    result["blog"]["types"] = res.data["types"]
-                    result["blog"]["tags"] = res.data["tags"]
-                    result["blog"]["author"] = res.data["user"]
+                    result["blog"]["type_list"] = res.data["type_list"]
+                    result["blog"]["tag_list"] = res.data["tag_list"]
+                    result["blog"]["author"] = 1
                     result["blog"]["view_count"] = res.data["view_count"]
                     result["blog"]["admire_count"] = res.data["admire_count"]
                     result["blog"]["create_time"] = dayjs(res.data["create_time"]).format("YYYY-MM-DD")
                     result["blog"]["update_time"] = dayjs(res.data["update_time"]).format("YYYY-MM-DD")
                     this.spinShow = false;
+                    console.log(res,result["blog"]);
                 })
             }else{
                 result["spinShow"] = false;
@@ -151,23 +152,23 @@
             return result;
         },
         created:function(){
-            get_tags_base({
+            get_tag_list_base({
                 query:{
-                    types: "博客",
+                    type_list: "博客",
                 }
             }).then((res) => {
-                var tags = new Array();
+                var tag_list = new Array();
                 for(var index in res.data){
-                    tags.push({"value":res.data[index],"label":res.data[index]});
+                    tag_list.push({"value":res.data[index],"label":res.data[index]});
                 }
-                this.tags = tags;
+                this.tag_list = tag_list;
             }),
-            get_types_base().then((res) => {
-                var types = new Array();
+            get_type_list_base().then((res) => {
+                var type_list = new Array();
                 for(var type of res.data){
-                    types.push({"value":type,"label":type});
+                    type_list.push({"value":type,"label":type});
                 }
-                this.types = types;
+                this.type_list = type_list;
             })
         },
         methods:{
@@ -211,8 +212,8 @@
                         introduction: this.blog.introduction,
                         content: this.blog.content,
                         // contentHtml1: this.blog.contentHtml1,
-                        types: this.blog.types,
-                        tags: this.blog.tags,
+                        type_list: this.blog.type_list,
+                        tag_list: this.blog.tag_list,
                     }
                 }).then((res)=>{
                     var id = res["data"]["id"];
@@ -228,8 +229,8 @@
                         introduction: this.blog.introduction,
                         content: this.blog.content,
                         // contentHtml1: this.blog.contentHtml1,
-                        types: this.blog.types,
-                        tags: this.blog.tags,
+                        type_list: this.blog.type_list,
+                        tag_list: this.blog.tag_list,
                     },
                     urlParams:{
                         id:this.$route.params.id
@@ -241,13 +242,13 @@
                 })
             },
             createTag(val){
-                this.tags.push({
+                this.tag_list.push({
                     value: val,
                     label: val
                 });
             },
             createType(val){
-                this.types.push({
+                this.type_list.push({
                     value: val,
                     label: val
                 });
