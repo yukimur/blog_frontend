@@ -23,7 +23,7 @@
             <List border size="large" :style="{margin:'-15px 0px 8px',border:'0px'}">
                 <ListItem v-for="item in group_by_tag" :key="item.key" loading>
                     <Icon type="ios-navigate" :style="{'margin':'0 4px 0 0'}"/>
-                    <a :href="'/blog?tags='+item.key">{{ item.key+'('+item.doc_count+')' }}</a>
+                    <a :href="'/blog?tag_list='+item.key">{{ item.key+'('+item.doc_count+')' }}</a>
                 </ListItem>
             </List>
         </Row>
@@ -94,6 +94,7 @@ a{
                     var hits = res.data.hits;
                     var latest_blogs = [];
                     for (var i in hits) {
+                        hits[i]._source["id"] = hits[i]["_id"]
                         latest_blogs.push(hits[i]._source);
                     }
                     this.latest_blogs = latest_blogs;
@@ -160,7 +161,7 @@ a{
                 };
                 tagcloudChart.setOption(option,true);
                 tagcloudChart.on('click', function (params) {
-                    window.location.href = `/blog?tags=${params.data.name}`;
+                    window.location.href = `/blog?tag_list=${params.data.name}`;
                 });
             }
         }

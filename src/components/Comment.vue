@@ -71,7 +71,7 @@
                 }).then((res)=>{
                     this.comments = res.data;
                 }).catch((res)=>{
-                    alert(res);
+                    // alert("get_comment",res);
                 })
             },
             create_comment(){
@@ -86,7 +86,7 @@
                 }).then((res)=>{
                     this.get_comment()
                 }).catch((res)=>{
-                    alert(res);
+                    alert("create_comment",res);
                 })
             }
         }

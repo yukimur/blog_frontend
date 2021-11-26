@@ -45,7 +45,7 @@
                                 </ListItem>
                                 <ListItem>
                                     <div :style="{padding:'0px 25px 0px 90px',display:'inline'}">密码</div>
-                                    <Input v-model="user.password" type="password" password placeholder="请输入密码" style="width: 240px" />
+                                    <Input v-model="user.password" @on-enter="to_login" type="password" password placeholder="请输入密码" style="width: 240px" />
                                 </ListItem>
                             </List>
                         </Modal>

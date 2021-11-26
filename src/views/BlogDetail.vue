@@ -39,12 +39,12 @@
                                 <Option v-for="item in tag_list" :value="item.value" :key="item.label">{{ item.value }}</Option>
                             </Select>
                         </ListItem>
-                        <ListItem class="tag_list-edit" :style="{width:'100%',display:'block','text-align':'left','padding':'5px 0'}">
+                        <!-- <ListItem class="tag_list-edit" :style="{width:'100%',display:'block','text-align':'left','padding':'5px 0'}">
                             <span :style="{'font-size':'25px'}">上传封面：</span>
                             <Upload action="http://yukimura.club/blog/image/" style="display:inline-block" on-success="upload_title_page" show-upload-list=true>
                                 <Button icon="ios-cloud-upload-outline">upload</Button>
                             </Upload>
-                        </ListItem>
+                        </ListItem> -->
                         <ListItem class="introduction-edit" :style="{width:'100%'}">
                             <span :style="{'font-size':'25px'}">简介：</span>
                             <Input v-model="blog.introduction" type="textarea" :rows="4" size="large" clearable style="width: 900px" />
@@ -144,7 +144,6 @@
                     result["blog"]["create_time"] = dayjs(res.data["create_time"]).format("YYYY-MM-DD")
                     result["blog"]["update_time"] = dayjs(res.data["update_time"]).format("YYYY-MM-DD")
                     this.spinShow = false;
-                    console.log(res,result["blog"]);
                 })
             }else{
                 result["spinShow"] = false;
@@ -159,14 +158,14 @@
             }).then((res) => {
                 var tag_list = new Array();
                 for(var index in res.data){
-                    tag_list.push({"value":res.data[index],"label":res.data[index]});
+                    tag_list.push({"value":res.data[index].key,"label":res.data[index].key});
                 }
                 this.tag_list = tag_list;
             }),
             get_type_list_base().then((res) => {
                 var type_list = new Array();
                 for(var type of res.data){
-                    type_list.push({"value":type,"label":type});
+                    type_list.push({"value":type.key,"label":type.key});
                 }
                 this.type_list = type_list;
             })

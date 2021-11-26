@@ -22,8 +22,8 @@
                     <span>标签</span>
                 </i-col>
                 <i-col span="6">
-                    <Select  filterable multiple v-model="currentTags" style="width: 250px">
-                        <Option v-for="item in tags" :value="item.value" :key="item.label">{{ item.value }}</Option>
+                    <Select  filterable multiple v-model="current_tag_list" style="width: 250px">
+                        <Option v-for="item in tag_list" :value="item.value" :key="item.label">{{ item.value }}</Option>
                     </Select>
                 </i-col>
                 <i-col span="3">
@@ -82,7 +82,7 @@
     }
 </style>
 <script>
-    import {get_blog_list,create_blog,get_tags_base} from '../apis/api'
+    import {get_blog_list,create_blog,get_tag_list_base} from '../apis/api'
 
     export default {
         name: "ContentList",
@@ -91,8 +91,8 @@
         },
         data(){
             var result = {
-                tags: null,
-                currentTags: null,
+                tag_list: null,
+                current_tag_list: null,
                 keyword: null,
                 user:this.$common.user,
                 total:0,
@@ -105,30 +105,30 @@
         created:function (){
             // 初始请求
             this.keyword = this.$route.query.keyword;
-            get_tags_base({
+            get_tag_list_base({
                 query:{
-                    types: "博客",
+                    type_list: "博客",
                 }
             }).then((res) => {
-                var tags = new Array();
+                var tag_list = new Array();
                 for(const tag of res.data){
-                    tags.push({"value":tag,"label":tag});
+                    tag_list.push({"value":tag,"label":tag});
                 }
-                this.tags = tags;
+                this.tag_list = tag_list;
             })
-            var currentTags = this.$route.query.tags;
-            if(currentTags!=undefined||currentTags!=null){
-                this.currentTags = currentTags.split(",");
+            var currenttag_list = this.$route.query.tag_list;
+            if(currenttag_list!=undefined||currenttag_list!=null){
+                this.currenttag_list = currenttag_list.split(",");
             }
-            this.get_blog_list("博客",10,1,this.keyword,this.currentTags)
+            this.get_blog_list("博客",10,1,this.keyword,this.currenttag_list)
         },
         methods:{
             on_change(page){
-                this.get_blog_list("博客",10,page,this.keyword,this.currentTags)
+                this.get_blog_list("博客",10,page,this.keyword,this.currenttag_list)
             },
-            get_blog_list(type,size,page,keyword,tags) {
-                if(tags!=undefined||tags!=null){
-                    tags = tags.join(",")
+            get_blog_list(type,size,page,keyword,tag_list) {
+                if(tag_list!=undefined||tag_list!=null){
+                    tag_list = tag_list.join(",")
                 }
                 var query = {
                     size:size,page:page,type:type
@@ -136,8 +136,8 @@
                 if (keyword!=undefined){
                     query["keyword"] = keyword
                 }
-                if (tags!=undefined){
-                    query["tags"] = tags
+                if (tag_list!=undefined){
+                    query["tag_list"] = tag_list
                 }
                 get_blog_list({
                     query:query
@@ -154,7 +154,7 @@
                 window.open("/blogdetail/0", "_blank"); 
             },
             search(){
-                this.get_blog_list("博客",10,1,this.keyword,this.currentTags);
+                this.get_blog_list("博客",10,1,this.keyword,this.currenttag_list);
             }
         }
     }

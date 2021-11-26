@@ -1,16 +1,16 @@
 
 
-import { get_tags_base } from '../apis/api'
+import { get_tag_list_base } from '../apis/api'
 
 
-export const get_tags = (type) => {
-    var tags=new Array();
-    get_tags_base({
+export const get_tag_list = (type) => {
+    var tag_list=new Array();
+    get_tag_list({
         query:{
-            types: type,
+            type_list: type,
         }
     }).then((res) => {
-        tags = res.data;
+        tag_list = res.data;
     })
-    return tags
+    return tag_list
 }

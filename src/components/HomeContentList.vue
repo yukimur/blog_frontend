@@ -62,6 +62,7 @@
                     var hits = data.hits;
                     // var papers = [];
                     for (var i in hits) {
+                        hits[i]._source["id"] = hits[i]["_id"];
                         this.papers.push(hits[i]._source);
                         // var pager = {};
                         // paper["id"] = response.data[i]["title"]

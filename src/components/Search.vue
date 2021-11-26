@@ -22,7 +22,7 @@
             </i-col>
             <i-col span="6">
                 <Select  filterable multiple style="width: 250px">
-                    <Option v-for="item in tags" :value="item.value" :key="item.label">{{ item.value }}</Option>
+                    <Option v-for="item in tag_list" :value="item.value" :key="item.label">{{ item.value }}</Option>
                 </Select>
             </i-col>
             <i-col span="3">
@@ -51,7 +51,7 @@
     }
 </style>
 <script>
-    import {create_blog,get_tags_base} from '../apis/api'
+    import {create_blog,get_tag_list_base} from '../apis/api'
     
     export default {
         name: "Search",
@@ -59,33 +59,32 @@
             msg: String
         },
         created:function (){
-            get_tags_base({
+            get_tag_list_base({
                 query:{
-                    types: "博客",
+                    type_list: "博客",
                 }
             }).then((res) => {
-                var tags = new Array();
+                var tag_list = new Array();
                 for(const tag of res.data){
-                    tags.push({"value":tag,"label":tag});
+                    tag_list.push({"value":tag,"label":tag});
                 }
-                this.tags = tags;
+                this.tag_list = tag_list;
             })
         },
         data(){
-            // get_tags_base({
-            //     query:{
-            //         types: "博客",
-            //     }
-            // }).then((res) => {
-            //     var tags = new Array();
-            //     for(const tag of res.data){
-            //         tags.push({"value":tag,"label":tag});
-            //     }
-            //     this.tags = tags;
-            //     console.log(this.tags);
-            // })
+            get_tag_list_base({
+                query:{
+                    type_list: "博客",
+                }
+            }).then((res) => {
+                var tag_list = new Array();
+                for(const tag of res.data){
+                    tag_list.push({"value":tag,"label":tag});
+                }
+                this.tag_list = tag_list;
+            })
             return{
-                tags: null,
+                tag_list: null,
                 keyword: this.$route.query.keyword,
                 user:this.$common.user,
             }
