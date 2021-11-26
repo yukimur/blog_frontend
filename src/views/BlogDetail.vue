@@ -39,12 +39,12 @@
                                 <Option v-for="item in tag_list" :value="item.value" :key="item.label">{{ item.value }}</Option>
                             </Select>
                         </ListItem>
-                        <!-- <ListItem class="tag_list-edit" :style="{width:'100%',display:'block','text-align':'left','padding':'5px 0'}">
+                        <ListItem class="tag_list-edit" :style="{width:'100%',display:'block','text-align':'left','padding':'5px 0'}">
                             <span :style="{'font-size':'25px'}">上传封面：</span>
-                            <Upload action="http://yukimura.club/blog/image/" style="display:inline-block" on-success="upload_title_page" show-upload-list=true>
+                            <Upload action="http://119.91.151.31:8005/blog/image/" style="display:inline-block" on-success="upload_title_page" show-upload-list=true>
                                 <Button icon="ios-cloud-upload-outline">upload</Button>
                             </Upload>
-                        </ListItem> -->
+                        </ListItem>
                         <ListItem class="introduction-edit" :style="{width:'100%'}">
                             <span :style="{'font-size':'25px'}">简介：</span>
                             <Input v-model="blog.introduction" type="textarea" :rows="4" size="large" clearable style="width: 900px" />
@@ -68,14 +68,6 @@
     .rich img{ display:block; max-width: 100%}
 </style>
 <script>
-    // import axios from 'axios'
-    // axios.defaults.withCredentials = true;
-    // export const start = () => {
-    //     return axios.request({
-    //         method: "get",
-    //         url: "http://82.156.121.144:5000/indexinfo/SH000300?start_date=2016-01-22"
-    //     })
-    // }
 
     import { mavonEditor } from "mavon-editor";
     import "mavon-editor/dist/css/index.css";

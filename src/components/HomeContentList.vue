@@ -28,7 +28,7 @@
 
 </style>
 <script>
-    import {get_blog_list1} from "../apis/api"
+    import {get_blog_list} from "../apis/api"
 
     export default {
         name: "HomeContentList",
@@ -53,7 +53,7 @@
                 var query = {
                     size:this.size,page:page,type:"博客",order_by:"-update_time"
                 };
-                get_blog_list1({
+                get_blog_list({
                     query:query
                 }).then(function (response) {
                     return response.data

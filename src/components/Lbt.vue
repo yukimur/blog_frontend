@@ -44,7 +44,7 @@
     // import { Swiper, SwiperSlide, } from 'vue-awesome-swiper'
     import { directive, } from 'vue-awesome-swiper'
     import 'swiper/src/swiper.scss'
-    import {get_blog_list1} from "../apis/api"
+    import {get_blog_list} from "../apis/api"
 
     export default {
         name: "Lbt",
@@ -101,7 +101,7 @@
                 var query = {
                     size:4,page:1,type:"博客",isTitlePage:true
                 };
-                get_blog_list1({
+                get_blog_list({
                     query:query
                 }).then(function (response) {
                     return response.data

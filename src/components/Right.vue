@@ -61,7 +61,7 @@ a{
 }
 </style>
 <script>
-    import {get_blog_list1,get_group_by_date,get_group_by_tag,get_web_statis} from "../apis/api"
+    import {get_blog_list,get_group_by_date,get_group_by_tag,get_web_statis} from "../apis/api"
 
     export default {
         name: "Right",
@@ -88,7 +88,7 @@ a{
                 var query = {
                     size:5,type:"博客",order_by:"-update_time"
                 };
-                get_blog_list1({
+                get_blog_list({
                     query:query
                 }).then((res) => {
                     var hits = res.data.hits;

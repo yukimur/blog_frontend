@@ -144,10 +144,16 @@
                 }).then(function (response) {
                     return response.data
                 }).then(data => {
-                    this.total = data["numFound"]
-                    this.data = data["docs"]
-                    this.size = size
-                    this.currentPage = page
+                    this.total = data["total"]["value"]
+                    var hits = data.hits;
+                    var datas = [];
+                    for (var i in hits) {
+                        hits[i]._source["id"] = hits[i]["_id"]
+                        datas.push(hits[i]._source);
+                    }
+                    this.data = datas;
+                    this.size = size;
+                    this.currentPage = page;
                 })
             },
             createPaper(){
