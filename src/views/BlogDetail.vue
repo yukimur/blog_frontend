@@ -253,7 +253,8 @@
                     body:formdata,
                     headers: { 'Content-Type': 'multipart/form-data' }
                 }).then((res)=>{
-                    this.$refs.md.$img2Url(pos, res.data.image_url);
+                    alert(res.data.url);
+                    this.$refs.md.$img2Url(pos, res.data.url);
                 })
             },
         },

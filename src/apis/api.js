@@ -19,5 +19,5 @@ export const get_group_by_date = params => http.get(HOST+'/blog/get_group_by_dat
 export const get_group_by_tag = params => http.get(HOST+'/blog/get_group_by_tag/', params)
 export const get_web_statis = params => http.get(HOST+'/blog/get_web_statis/', params)
 export const upload_image = params => http.post(HOST+'/blog/image/', params)
-export const get_comment = params => http.get(HOST+'/blog/comment/', params)
+export const get_comment_list = params => http.get(HOST+'/blog/comment_list/%(blog_id)d/', params)
 export const create_comment = params => http.post(HOST+'/blog/comment/', params)

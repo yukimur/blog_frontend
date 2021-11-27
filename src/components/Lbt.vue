@@ -4,7 +4,7 @@
             <div class="swiper-wrapper">
                 <div class="swiper-slide" :key="banner" v-for="banner in banners">
                     <a :href="'/blogdetail/'+banner.id">
-                        <img :src="banner.title_page.image" :style="{'background-size':'880px 510px','background-repeat':'no-repeat','width': '880px','height':'510px'}">
+                        <img :src="banner.title_page.url" :style="{'background-size':'880px 510px','background-repeat':'no-repeat','width': '880px','height':'510px'}">
                         <!-- <img :src="banner.image" :style="{'background-size':'880px 510px','background-repeat':'no-repeat','width': '880px','height':'510px'}"> -->
                     </a>
                 </div>
@@ -14,7 +14,7 @@
         <i-col class="swiper-container-right" span="4" :style="{}">
             <div class="swiper-wrapper">
                 <div class="swiper-slide" :key="banner" v-for="banner in banners" :style="{'margin-bottom':'10px','height': '120px'}">
-                    <img :src="banner.title_page.image" :style="{'background-size':'160px 120px','background-repeat':'no-repeat','width': '160px','height':'120px'}">
+                    <img :src="banner.title_page.url" :style="{'background-size':'160px 120px','background-repeat':'no-repeat','width': '160px','height':'120px'}">
                     <!-- <img :src="banner.image" :style="{'background-size':'160px 120px','background-repeat':'no-repeat','width': '160px','height':'120px'}"> -->
                 </div>
             </div>
@@ -51,12 +51,6 @@
         data() {
             return {
                 banners: [ ],
-                banners1: [ 
-                    {"image":"images/802.jpg"},
-                    {"image":"images/unnamed.jpg"},
-                    {"image":"images/802.jpg"},
-                    {"image":"images/unnamed.jpg"}
-                ],
                 swiperOption: {
                     loop:true,
                     effect:"fade",
@@ -97,23 +91,21 @@
             //     console.log('slide change');
             // },
             get_title_page_blog_list() {
-                console.log(1);
                 var query = {
-                    size:4,page:1,type:"博客",isTitlePage:true
+                    size:4,page:1,type:"博客",is_title_page:true
                 };
                 get_blog_list({
                     query:query
                 }).then(function (response) {
                     return response.data
                 }).then(data => {
-                    this.total = data["numFound"]
-                    this.data = data["docs"]
-                    for(var i in data){
-                        var title_page = data[i]["title_page"];
-                        if(title_page!=null){
-                            this.banners.push(data[i]);
-                        }
+                    var hits = data.hits;
+                    var banners = [];
+                    for (var i in hits) {
+                        hits[i]._source["id"] = hits[i]["_id"];
+                        banners.push(hits[i]._source);
                     }
+                    this.banners = banners;
                 })
             },
         },

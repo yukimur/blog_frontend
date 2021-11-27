@@ -60,17 +60,9 @@
                 }).then(data => {
                     this.total = data.total.value
                     var hits = data.hits;
-                    // var papers = [];
                     for (var i in hits) {
                         hits[i]._source["id"] = hits[i]["_id"];
                         this.papers.push(hits[i]._source);
-                        // var pager = {};
-                        // paper["id"] = response.data[i]["title"]
-                        // paper["title"] = response.data[i]["title"]
-                        // // paper["description"] = response.data[i]["description"]
-                        // paper["admire_count"] = response.data[i]["admire_count"]
-                        // paper["view_count"] = response.data[i]["view_count"]
-                        // paper["title"] = response.data[i]["title"]
                     }
                 })
             },

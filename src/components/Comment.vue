@@ -43,7 +43,7 @@
     }
 </style>
 <script>
-    import { get_comment,create_comment } from "../apis/api" 
+    import { get_comment_list,create_comment } from "../apis/api" 
 
     export default {
         name: "Comment",
@@ -60,12 +60,12 @@
             }
         },
         created:function(){
-            this.get_comment()
+            this.get_comment_list()
         },
         methods:{
-            get_comment(){
-                get_comment({
-                    query:{
+            get_comment_list(){
+                get_comment_list({
+                    urlParams:{
                         "blog_id":this.$route.params.id
                     }
                 }).then((res)=>{
@@ -84,7 +84,7 @@
                         "blog_id":this.$route.params.id
                     }
                 }).then((res)=>{
-                    this.get_comment()
+                    this.get_comment_list()
                 }).catch((res)=>{
                     alert("create_comment",res);
                 })
