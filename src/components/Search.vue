@@ -52,7 +52,6 @@
 </style>
 <script>
     import {create_blog,get_tag_list_base} from '../apis/api'
-    
     export default {
         name: "Search",
         props: {
@@ -65,9 +64,10 @@
                 }
             }).then((res) => {
                 var tag_list = new Array();
-                for(const tag of res.data){
-                    tag_list.push({"value":tag,"label":tag});
+                for(const item of res.data){
+                    tag_list.push({"value":item.key,"label":item.key});
                 }
+                console.log(tag_list);
                 this.tag_list = tag_list;
             })
         },
@@ -78,9 +78,10 @@
                 }
             }).then((res) => {
                 var tag_list = new Array();
-                for(const tag of res.data){
-                    tag_list.push({"value":tag,"label":tag});
+                for(const item of res.data){
+                    tag_list.push({"value":item.key,"label":item.key});
                 }
+                console.log(tag_list);
                 this.tag_list = tag_list;
             })
             return{

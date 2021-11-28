@@ -111,8 +111,8 @@
                 }
             }).then((res) => {
                 var tag_list = new Array();
-                for(const tag of res.data){
-                    tag_list.push({"value":tag,"label":tag});
+                for(const item of res.data){
+                    tag_list.push({"value":item.key,"label":item.key});
                 }
                 this.tag_list = tag_list;
             })

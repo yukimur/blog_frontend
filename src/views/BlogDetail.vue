@@ -102,7 +102,6 @@
                     content:"",
                     type_list:[],
                     tag_list:[],
-                    // contentHtml1:"",
                     author:"",
                     create_time:null,
                     update_time:null
@@ -127,7 +126,6 @@
                     result["blog"]["title"] = res.data["title"]
                     result["blog"]["introduction"] = res.data["introduction"]
                     result["blog"]["content"] = res.data["content"]
-                    // result["blog"]["contentHtml1"] = res.data["contentHtml1"]
                     result["blog"]["type_list"] = res.data["type_list"]
                     result["blog"]["tag_list"] = res.data["tag_list"]
                     result["blog"]["author"] = 1
@@ -179,7 +177,6 @@
                 this.edit = edit;
             },
             save(value, render) {
-                // this.blog.contentHtml1 = render
                 this.blog.content = value;
             },
             fullScreen(status) {
@@ -202,12 +199,11 @@
                         title: this.blog.title,
                         introduction: this.blog.introduction,
                         content: this.blog.content,
-                        // contentHtml1: this.blog.contentHtml1,
                         type_list: this.blog.type_list,
                         tag_list: this.blog.tag_list,
                     }
                 }).then((res)=>{
-                    var id = res["data"]["id"];
+                    var id = res.data["id"];
                     window.location.href = "/blogdetail/"+id;
                 }).catch((res)=>{
                     alert(res);
@@ -219,7 +215,6 @@
                         title: this.blog.title,
                         introduction: this.blog.introduction,
                         content: this.blog.content,
-                        // contentHtml1: this.blog.contentHtml1,
                         type_list: this.blog.type_list,
                         tag_list: this.blog.tag_list,
                     },
