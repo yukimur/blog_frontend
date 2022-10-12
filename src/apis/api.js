@@ -1,7 +1,7 @@
 import { http } from "./request";
 
-// const HOST = "http://82.156.121.144:8080";
-const HOST = "http://119.91.151.31:8004";
+const HOST = "http://yukimura/api";
+// const HOST = "http://119.91.151.31:8004/api";
 
 
 export const get_my_userinfo = () => http.get(HOST+'/user/userinfo/')

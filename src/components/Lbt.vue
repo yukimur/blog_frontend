@@ -2,20 +2,18 @@
     <Row class="lbt">
         <i-col class="swiper-container-left" v-swiper:mySwiper="swiperOption" span="20" :style="{'min-height':'100%'}">
             <div class="swiper-wrapper">
-                <div class="swiper-slide" :key="banner" v-for="banner in banners">
-                    <a :href="'/blogdetail/'+banner.id">
-                        <img :src="banner.title_page.url" :style="{'background-size':'880px 510px','background-repeat':'no-repeat','width': '880px','height':'510px'}">
-                        <!-- <img :src="banner.image" :style="{'background-size':'880px 510px','background-repeat':'no-repeat','width': '880px','height':'510px'}"> -->
+                <div class="swiper-slide" v-for="banner in banners" :key="banner.id">
+                    <a :href="`/blogdetail/${banner.id}`">
+                        <img :src="`http://yukimura.club${banner.url}`" :style="{'background-size':'880px 510px','background-repeat':'no-repeat','width': '880px','height':'510px'}">
                     </a>
                 </div>
             </div>
-            <div class="swiper-pagination"></div>
+            <!-- <div class="swiper-pagination" slot="pagination"></div> -->
         </i-col>
         <i-col class="swiper-container-right" span="4" :style="{}">
             <div class="swiper-wrapper">
-                <div class="swiper-slide" :key="banner" v-for="banner in banners" :style="{'margin-bottom':'10px','height': '120px'}">
-                    <img :src="banner.title_page.url" :style="{'background-size':'160px 120px','background-repeat':'no-repeat','width': '160px','height':'120px'}">
-                    <!-- <img :src="banner.image" :style="{'background-size':'160px 120px','background-repeat':'no-repeat','width': '160px','height':'120px'}"> -->
+                <div class="swiper-slide swiper-slide1" :key="banner.id" v-for="banner in banners" :style="{'margin-bottom':'10px','height': '120px'}">
+                    <img :src="`http://yukimura.club${banner.url}`" :style="{'border-style': 'outset','background-size':'160px 120px','background-repeat':'no-repeat','width': '160px','height':'120px'}">
                 </div>
             </div>
         </i-col>
@@ -27,17 +25,25 @@
         max-height:100%;
         max-width:100%;
     }
+    .swiper-slide1 {
+        opacity:0.7;
+    }
     .swiper-container-left {
         float: left;
         overflow: hidden;
     }  
     .swiper-container-right{
         float:right;
+        text-align:center;
         margin-left:0px;
         line-height:90px!important;
     }
     .slide-thumb-active{
-        opacity:0.5;
+        opacity:1;
+    }
+    .slide-thumb{
+        cursor:pointer;
+        /* border: 1px solid #000000; */
     }
 </style>
 <script>
@@ -52,20 +58,27 @@
             return {
                 banners: [ ],
                 swiperOption: {
-                    loop:true,
-                    effect:"fade",
-                    pagination: {
-                        el: '.swiper-pagination'
+                    // loop:true,
+                    observer: true,
+                    observeParents: true,
+                    autoplay: {
+                        disableOnInteraction: false,
+                        delay:2500
                     },
+                    // effect:"cube",
+                    grabCursor: true,
                     thumbs:{
                         swiper:{
                             el:".swiper-container-right",
                             direction:"vertical",
+                            observer: true,
+                            observeParents: true,
                             slidesPerView:4,
-                            soaceBetween:10,
-                            watchSlidesVisibility:true
+                            // spaceBetween:10,
+                            watchSlidesVisibility: true,
                         },
-                        // slideThumbActiveClass:"slide-thumb-active"
+                        thumbsContainerClass:"slide-thumb",
+                        slideThumbActiveClass: "slide-thumb-active"
                     }
                 }
             }
@@ -102,8 +115,10 @@
                     var hits = data.hits;
                     var banners = [];
                     for (var i in hits) {
-                        hits[i]._source["id"] = hits[i]["_id"];
-                        banners.push(hits[i]._source);
+                        banners.push({
+                            'id': hits[i]._id,
+                            'url': hits[i]._source.title_page.url
+                        });
                     }
                     this.banners = banners;
                 })

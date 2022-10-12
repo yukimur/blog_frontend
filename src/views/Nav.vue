@@ -15,9 +15,9 @@
                 <MenuItem :style="{'padding-top':'12px','font-size':'20px'}" name="note" to="/note">
                     <Icon type="ios-book" :style="{'margin':'0 4px 0 -3px'}"/>笔记
                 </MenuItem>
-                <MenuItem :style="{'padding-top':'12px','font-size':'20px'}" name="fund" to="/fund">
+                <!-- <MenuItem :style="{'padding-top':'12px','font-size':'20px'}" name="fund" to="/fund">
                     <Icon type="ios-analytics" :style="{'margin':'0 4px 0 -3px'}"/>基金
-                </MenuItem>
+                </MenuItem> -->
                 <MenuItem :style="{'padding-top':'12px','font-size':'20px'}" name="data" to="/data">
                     <Icon type="ios-paper" :style="{'margin':'0 4px 0 -3px'}"/>数据
                 </MenuItem>
