@@ -1,6 +1,6 @@
 import { http } from "./request";
 
-const HOST = "http://yukimura/api";
+const HOST = "http://yukimura.club/api";
 // const HOST = "http://119.91.151.31:8004/api";
 
 
