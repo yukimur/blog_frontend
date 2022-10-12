@@ -37,7 +37,7 @@
         },
         data () {
             return {
-                size:4,
+                size:10,
                 page:1,
                 papers: []
             }
@@ -46,7 +46,7 @@
             this.get_blog_list(1);
         },
         mounted() {
-            this.scroll(this.papers)
+            this.scroll()
         },
         methods: {
             get_blog_list(page) {
@@ -68,14 +68,16 @@
             },
             beforeMount() {
             },
-            scroll(papers) {
+            scroll() {
                 let isLoading = false
                 window.onscroll = () => {
                     // 距离底部200px时加载一次
-                    let bottomOfWindow = document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight <= 30
+                    let bottomOfWindow = document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight <= 10
                     if (bottomOfWindow && isLoading == false) {
-                        // isLoading = true
-                        this.get_blog_list(this.page+1);
+                        isLoading = true
+                        // setTimeout()
+                        this.page = this.page + 1;
+                        this.get_blog_list(this.page);
                         // axios.get(`https://randomuser.me/api/`).then(response => {
                         //     paper.push(response.data.results[0])
                         //     isLoading = false

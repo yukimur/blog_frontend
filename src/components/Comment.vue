@@ -1,7 +1,7 @@
 <template>
     <div class="comment" :style="{width:'100%',margin:'60px auto'}">
         <List class="commentView" border :style="{'border-radius':'0px'}">
-            <ListItem class="commentCount" :style="{margin:'40px auto 5px','border-bottom':'1px solid #cbc4c4','font-size':'23px','font-family':'cursive'}">10条评论</ListItem>
+            <ListItem class="commentCount" :style="{margin:'40px auto 5px','border-bottom':'1px solid #cbc4c4','font-size':'23px','font-family':'cursive'}">0条评论</ListItem>
             <ListItem :style="{'font-size':'23px'}">抢个沙发~</ListItem>
             <ListItem>
                 <span :style="{width:'130px'}">名字：</span>
